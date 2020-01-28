@@ -4,6 +4,16 @@ use Fpdf\Fpdf;
 
 include 'vendor/autoload.php';
 
+// subclass
+class PDFImporSementara extends Fpdf {
+    public function Footer()
+    {
+        $this->SetFont('Arial', 'I', 8);
+        $this->SetY(-15);
+        $this->Write(4, 'Dokumen ini dicetak secara otomatis menggunakan sistem terkomputerisasi');
+    }
+}
+
 // data required
 $A_nama   = "Tri Mulyadi Wibowo";
 $A_alamat = "Gg. Masjid no 50/a RT 02/02, Cipondoh, Tangerang";
@@ -46,6 +56,12 @@ $no_rek     = "001678829912330210";
 $nama_rek   = "Tri Mulyadi Wibowo";
 $bank_rek   = "BANK TABUNGAN NEGARA PERSERO TBK";
 
+// blank data utk data realisasi ekspor (unpredictable)
+$ttd_kota_keluar = '................................';
+$ttd_tanggal_keluar = $ttd_kota_keluar;
+$nama_pejabat_keluar = $nip_pejabat_keluar = '..............................................................';
+// $nip_pejabat_keluar = $ttd_kota_keluar;
+
 $E_data_barang = [
     // 1st item
     [
@@ -77,10 +93,14 @@ $nip_pejabat    = '198912302012101001';
 
 $catatan_pejabat    = 'Barang ini sejatinya digunakan untuk keperluan event olahraga se-asia tenggara, ASEAN GAMES 2024. Namun tetap berlaku kewajiban pabean atas barang ini, sehingga apabila hingga waktu jatuh tempo pemilik barang belum melakukan ekspor atas barang ini, maka jaminan yang sudah diterima akan dicairkan.';
 
+$kantor_pengeluaran = 'KPU BC TIPE C SOEKARNO HATTA';
+$nomor_bukti_realisasi_ekspor   = 'RE-00021/T3/SH/2020';
+$tgl_bukti_realisasi_ekspor     = '2020-02-24';
+
 //===============================================================================================
 // actual pdf gen
 //===============================================================================================
-$pdf = new Fpdf('P', 'mm', 'A4');
+$pdf = new PDFImporSementara('P', 'mm', 'A4');
 $pdf->SetAutoPageBreak(true);
 $pdf->AliasNbPages();
 
@@ -624,9 +644,61 @@ $pdf->MultiCell(0, 4, $catatan_pejabat, 0);
 // draw the rectangle surrounding it
 $pdf->Rect($row_x + 95, $row_y, 95, 24);
 
-// $pdf->AddPage();
-// $pdf->Cell(0, 4, "Page {$pdf->PageNo()} of {nb}");
+// force offset ke baris 4
+$pdf->SetY($row_y + 24);
+//-------------------------------------------------------------------------------------
+// 10th row, UNTUK PEJABAT BEA DAN CUKAI PELABUHAN PENGELUARAN
+//-------------------------------------------------------------------------------------
+// J. UNTUK PEJABAT BEA DAN CUKAI PELABUHAN PENGELUARAN
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->Cell(0, 4, 'J. UNTUK PEJABAT BEA DAN CUKAI PELABUHAN PENGELUARAN', 1, 1);
 
+// set font back
+$pdf->SetFont('Arial', '', 8);
+
+// record xy
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+// 40. Kantor
+$pdf->Cell(25, 4, '40. Kantor       :');
+$pdf->MultiCell(70, 4, $kantor_pengeluaran, 0, 'L');
+
+// 41. Nomor
+$pdf->Cell(25, 4, '41. Nomor       :');
+$pdf->MultiCell(70, 4, $nomor_bukti_realisasi_ekspor, 0, 'L');
+
+// 42. Tanggal
+$pdf->Cell(25, 4, '42. Tanggal     :');
+$pdf->MultiCell(70, 4, $tgl_bukti_realisasi_ekspor, 0, 'L');
+
+// record last y
+$last_y = $pdf->GetY();
+
+// draw rectangle surrounding 40-42
+$pdf->Rect($row_x, $row_y, 95, $last_y-$row_y);
+
+// record lasty
+$last_y = $pdf->GetY();
+
+// Ttd pengeluaran (blank by default)
+$pdf->MultiCell(95, 4, "{$ttd_kota_keluar} , Tgl {$ttd_tanggal_keluar}\nPejabat Bea dan Cukai\n\n\nNama : {$nama_pejabat_keluar}\nNIP    : {$nip_pejabat_keluar}", 0, 'L');
+
+// record maximum Y
+$max_row_y = $pdf->GetY();
+
+
+// RIGHT SIDE!!
+// K. CATATAN PEJABAT BEA DAN CUKAI
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetXY($row_x + 95, $row_y);
+$pdf->Cell(0, 4, 'K. CATATAN PEJABAT BEA DAN CUKAI', 0, 1);
+
+$max_row_y = max($max_row_y, $pdf->GetY());
+
+// draw the rectangle for ttd & K.CATATAN PEJABAT
+$pdf->Rect($row_x, $last_y, 95, $max_row_y-$last_y);
+$pdf->Rect($row_x + 95, $row_y, 95, $max_row_y-$row_y);
 
 // PRINT!!
 $pdf->Output('I', 'is.pdf');
