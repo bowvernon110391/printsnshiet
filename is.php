@@ -369,7 +369,16 @@ $row_y = $pdf->GetY();
 $pdf->MultiCell(7, 4, "17. No", 1);
 
 $pdf->SetXY($row_x + 7, $row_y);
-$pdf->MultiCell(88, 4, "18. Uraian Barang", 1);
+$pdf->MultiCell(88, 8, "18. Uraian Barang", 1);
+
+$pdf->SetXY($row_x + 95, $row_y);
+$pdf->MultiCell(30, 4, "19. Spesifikasi / Identitas Barang", 1, 'L');
+
+$pdf->SetXY($row_x + 125, $row_y);
+$pdf->MultiCell(35, 4, "20. Jumlah dan Jenis Satuan", 1, 'L');
+
+$pdf->SetXY($row_x + 160, $row_y);
+$pdf->MultiCell(30, 4, "21. Perkiraan Nilai Barang (CIF)", 1, 'L');
 
 // PRINT!!
 $pdf->Output('I', 'is.pdf');
