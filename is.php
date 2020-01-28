@@ -46,6 +46,27 @@ $no_rek     = "001678829912330210";
 $nama_rek   = "Tri Mulyadi Wibowo";
 $bank_rek   = "BANK TABUNGAN NEGARA PERSERO TBK";
 
+$E_data_barang = [
+    // 1st item
+    [
+        'uraian'            => "Sepeda Lipat Brompton",
+        'detailSekunder'    => [
+            'nama'  => 'S/N',
+            'data'  => "231-99293-22123"
+        ],
+        'jumlah_kemasan'    => 1,
+        'jenis_kemasan'     => 'BX',
+        'jumlah_satuan'     => 1,
+        'jenis_satuan'      => 'PCE',
+        'cif'               => 928.00,
+        'valuta'            => 'USD',
+        'kurs'              => 13789.98
+    ]
+];
+
+$ttd_kota       = 'CENGKARENG';
+$ttd_tanggal    = '2020-01-23';
+
 //===============================================================================================
 // actual pdf gen
 //===============================================================================================
@@ -272,12 +293,12 @@ $pdf->Cell(75, 4, 'C. DATA PENGGUNAAN BARANG', 0, 1);
 $pdf->SetFont('Arial', '', '8');
 $pdf->SetX(15);
 $pdf->Cell(30, 4, '8. Lokasi Penggunaan :', 0, 0);
-$pdf->SetX(45);
+$pdf->SetX(47);
 $pdf->MultiCell(55, 4, $C_lokasi_penggunaan);
 
 $pdf->SetX(15);
 $pdf->Cell(30, 4, '9. Tujuan Penggunaan :', 0, 0);
-$pdf->SetX(45);
+$pdf->SetX(47);
 $pdf->MultiCell(55, 4, $C_tujuan_penggunaan);
 
 $max_row_y = $pdf->GetY();
@@ -367,18 +388,136 @@ $row_x = $pdf->GetX();
 $row_y = $pdf->GetY();
 
 $pdf->MultiCell(7, 4, "17. No", 1);
+$pdf->Rect($pdf->GetX(), $pdf->GetY(), 7, 20);      // test-rect
 
 $pdf->SetXY($row_x + 7, $row_y);
 $pdf->MultiCell(88, 8, "18. Uraian Barang", 1);
+$pdf->Rect($pdf->GetX() + 7, $pdf->GetY(), 88, 20); // test-rect
 
 $pdf->SetXY($row_x + 95, $row_y);
 $pdf->MultiCell(30, 4, "19. Spesifikasi / Identitas Barang", 1, 'L');
+$pdf->Rect($pdf->GetX() + 95, $pdf->GetY(), 30, 20); // test-rect
 
 $pdf->SetXY($row_x + 125, $row_y);
 $pdf->MultiCell(35, 4, "20. Jumlah dan Jenis Satuan", 1, 'L');
+$pdf->Rect($pdf->GetX() + 125, $pdf->GetY(), 35, 20); // test-rect
 
 $pdf->SetXY($row_x + 160, $row_y);
 $pdf->MultiCell(30, 4, "21. Perkiraan Nilai Barang (CIF)", 1, 'L');
+$pdf->Rect($pdf->GetX() + 160, $pdf->GetY(), 30, 20); // test-rect
+// $pdf->Ln();
+// F. Tanda Tangan
+$pdf->SetXY($row_x, $pdf->GetY() + 20);
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+$pdf->Cell(7, 4, "F.");
+$pdf->MultiCell(88, 4, "Dengan ini saya menyatakan bertanggung jawab atas kebenaran hal-hal yang diberitahukan dalam dokumen ini", 0, 'C');
+
+$pdf->MultiCell(88, 4, "{$ttd_kota} , Tgl {$ttd_tanggal}\nPemohon\n\n\n{$A_nama}", 0, 'C');
+
+$max_row_y = $pdf->GetY();
+
+// draw rectangle for kolom TTD?
+$pdf->Rect($row_x, $row_y, 95, $max_row_y-$row_y);
+
+// RIGHT SIDE (22. Valuta - 28. Rp)
+$pdf->SetXY($row_x + 95, $row_y);
+
+// 22. valuta + 23. NDPBM
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+$pdf->Cell(20, 7, "22. Valuta     :");
+$pdf->Cell(27.5, 7, "KRW", 0, 0, 'R');
+
+$pdf->Cell(20, 7, '23. NDPBM       :');
+$pdf->Cell(27.5, 7, "13787.00", 0, 0, 'R');
+
+    // add rects
+    $pdf->Rect($row_x, $row_y, 47.5, 7);
+    $pdf->Rect($row_x + 47.5, $row_y, 47.5, 7);
+$pdf->Ln();
+
+// 24. FOB + 25. Freight
+$pdf->SetX($pdf->GetX() + 95);
+
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+
+
+$pdf->Cell(20, 7, "24. FOB      :");
+$pdf->Cell(27.5, 7, "928.00", 0, 0, 'R');
+
+$pdf->Cell(20, 7, '25. Freight       :');
+$pdf->Cell(27.5, 7, "0.00", 0, 0, 'R');
+
+    // add rects
+    $pdf->Rect($row_x, $row_y, 47.5, 7);
+    $pdf->Rect($row_x + 47.5, $row_y, 47.5, 7);
+$pdf->Ln();
+
+// 26. FOB + 27. Freight
+$pdf->SetX($pdf->GetX() + 95);
+
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+
+
+$pdf->Cell(20, 7, "24. Asuransi     :");
+$pdf->Cell(27.5, 7, "0.00", 0, 0, 'R');
+
+$pdf->Cell(20, 7, '25. CIF          :');
+$pdf->Cell(27.5, 7, "928.00", 0, 0, 'R');
+
+    // add rects
+    $pdf->Rect($row_x, $row_y, 47.5, 7);
+    $pdf->Rect($row_x + 47.5, $row_y, 47.5, 7);
+$pdf->Ln();
+
+// 28. Rp
+$pdf->SetX($pdf->GetX() + 95);
+
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+
+
+$pdf->Cell(20, 7, "28. Rp          :");
+$pdf->Cell(0, 7, "12453859.23", 0, 0, 'R');
+
+    // add rects
+    $pdf->Rect($row_x, $row_y, 95, 7);
+    // $pdf->Rect($row_x + 47.5, $row_y, 47.5, 7);
+$pdf->Ln();
+
+    // test the details?
+    /* $pdf->SetX($row_x + 160);
+    $pdf->Cell(10, 4, "BM :", 0);
+    $pdf->Cell(0, 4, "239000", 0, 1, 'R');
+
+    $pdf->SetX($row_x + 160);
+    $pdf->Cell(10, 4, "PPN :", 0);
+    $pdf->Cell(0, 4, "1320000", 0, 1, 'R');
+
+    $pdf->SetX($row_x + 160);
+    $pdf->Cell(10, 4, "PPnBM :", 0);
+    $pdf->Cell(0, 4, "0", 0, 1, 'R');
+
+    $pdf->SetX($row_x + 160);
+    $pdf->Cell(10, 4, "PPh :", 0);
+    $pdf->Cell(0, 4, "2640000", 0, 1, 'R');
+
+    $pdf->SetX($row_x + 160);
+    $pdf->Cell(10, 4, "Total :", 0);
+    $pdf->Cell(0, 4, "7650000", 0, 1, 'R'); */
+
+//-------------------------------------------------------------------------------------
+// 1 data barang aja yang muat
+//-------------------------------------------------------------------------------------
+
 
 // PRINT!!
 $pdf->Output('I', 'is.pdf');
