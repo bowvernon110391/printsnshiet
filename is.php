@@ -308,7 +308,8 @@ $max_row_y = max($max_row_y, $pdf->GetY());
 $pdf->Rect($row_x, $row_y, 95, $max_row_y-$row_y);
 $pdf->Rect($row_x+95, $row_y, 95, $max_row_y-$row_y);
 
-$pdf->Ln();
+// $pdf->Ln();
+$pdf->SetY($max_row_y);
 
 //=====================================================================================================
 // 3rd ROW
