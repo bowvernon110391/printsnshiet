@@ -67,6 +67,16 @@ $E_data_barang = [
 $ttd_kota       = 'CENGKARENG';
 $ttd_tanggal    = '2020-01-23';
 
+$no_bpj         = 'BPJ-000234/IS/T2F/SH/2020';
+$tgl_bpj        = '2020-01-23';
+
+$tgl_jatuh_tempo    = '2020-03-01';
+
+$nama_pejabat   = 'Setiadi';
+$nip_pejabat    = '198912302012101001';
+
+$catatan_pejabat    = 'Barang ini sejatinya digunakan untuk keperluan event olahraga se-asia tenggara, ASEAN GAMES 2024. Namun tetap berlaku kewajiban pabean atas barang ini, sehingga apabila hingga waktu jatuh tempo pemilik barang belum melakukan ekspor atas barang ini, maka jaminan yang sudah diterima akan dicairkan.';
+
 //===============================================================================================
 // actual pdf gen
 //===============================================================================================
@@ -564,8 +574,55 @@ $pdf->Rect($pdf->GetX() + 157, $pdf->GetY(), 33, 20); // test-rect
     $pdf->Cell(0, 4, "17,650,000.00", 0, 1, 'R');
 
 //-------------------------------------------------------------------------------------
-// 1 data barang aja yang muat
+// 8th row, BPJ + Jangka Waktu Impor Sementara
 //-------------------------------------------------------------------------------------
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+// 38. Bukti penerimaan jaminan
+$pdf->Cell(70, 4, '38. Bukti Penerimaan Jaminan (BPJ) No. :', 0, 1);
+$pdf->SetX($pdf->GetX() + 5);
+$pdf->Cell(65, 4, $no_bpj);
+
+// tanggal bpj
+$pdf->SetXY($row_x + 70, $row_y);
+$pdf->Cell(25, 4, 'Tanggal:', 0, 2);
+$pdf->SetX($pdf->GetX() + 5);
+$pdf->Cell(20, 4, $tgl_bpj);
+
+// 39. Jangka Waktu Izin Impor Sementara
+$pdf->SetXY($row_x + 95, $row_y);
+$pdf->Cell(0, 4, '39. Jangka Waktu Izin Impor Sementara', 0, 2);
+$pdf->SetX($pdf->GetX() + 5);
+$pdf->Cell(0, 4, $tgl_jatuh_tempo, 0, 1);
+
+// draw rectangles for three of them?
+$pdf->Rect($row_x, $row_y, 70, 8);
+$pdf->Rect($row_x + 70, $row_y, 25, 8);
+$pdf->Rect($row_x + 95, $row_y, 95, 8);
+
+
+//-------------------------------------------------------------------------------------
+// 9th row, TTD PDTT + CATATAN PEJABAT BEA DAN CUKAI
+//-------------------------------------------------------------------------------------
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+// TTD PDTT
+$pdf->MultiCell(95, 4, "{$ttd_kota} , Tgl {$ttd_tanggal}\nPejabat Bea dan Cukai\n\n\nNama : {$nama_pejabat}\nNIP     : {$nip_pejabat}", 1, 'L');
+
+// I. CATATAN PEJABAT BEA DAN CUKAI
+$pdf->SetXY($row_x + 95, $row_y);
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->MultiCell(0, 4, 'I. CATATAN PEJABAT BEA DAN CUKAI', 0, 'L');
+
+// Catatan Pejabat
+// use multicell, separate rectangle
+$pdf->SetX($pdf->GetX() + 95);
+$pdf->SetFont('Arial', '', 8);
+$pdf->MultiCell(0, 4, $catatan_pejabat, 0);
+// draw the rectangle surrounding it
+$pdf->Rect($row_x + 95, $row_y, 95, 24);
 
 // $pdf->AddPage();
 // $pdf->Cell(0, 4, "Page {$pdf->PageNo()} of {nb}");
