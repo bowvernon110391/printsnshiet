@@ -359,5 +359,17 @@ $pdf->Rect($row_x + 95, $row_y, 95, $max_row_y - $row_y);
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(0, 4, "E. DATA BARANG", 1, 1);
 
+// build header row
+$pdf->SetFont('Arial', '', 8);
+// $pdf->SetTextColor(255, 255, 255);
+// $pdf->SetFillColor(100, 100, 100);
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+$pdf->MultiCell(7, 4, "17. No", 1);
+
+$pdf->SetXY($row_x + 7, $row_y);
+$pdf->MultiCell(88, 4, "18. Uraian Barang", 1);
+
 // PRINT!!
 $pdf->Output('I', 'is.pdf');
