@@ -72,6 +72,7 @@ $ttd_tanggal    = '2020-01-23';
 //===============================================================================================
 $pdf = new Fpdf('P', 'mm', 'A4');
 $pdf->SetAutoPageBreak(true);
+$pdf->AliasNbPages();
 
 // 1st Page
 $pdf->AddPage();
@@ -82,7 +83,7 @@ $pdf->Cell(0, 4, "FORMULIR IMPOR SEMENTARA", 0, 1, 'C');
 $pdf->Cell(0, 5, "BARANG PRIBADI PENUMPANG DAN BARANG PRIBADI AWAK SARANA PENGANGKUT", 0, 1, 'C');
 
 // halaman x dari y
-$pdf->Cell(0, 4, "Halaman 1 dari " . $pdf->PageNo(), 1, 1, 'R');
+$pdf->Cell(0, 4, "Halaman {$pdf->PageNo()} dari {nb}" , 1, 1, 'R');
 
 $row_x = $pdf->GetX();
 $row_y = $pdf->GetY();
@@ -517,48 +518,53 @@ $pdf->MultiCell(7, 4, "29. No\n ", 1);
 $pdf->Rect($pdf->GetX(), $pdf->GetY(), 7, 20);      // test-rect
 
 $pdf->SetXY($row_x + 7, $row_y);
-$pdf->MultiCell(88, 4, "30. Uraian barang secara lengkap meliputi jenis, jumlah, merek, tipe, ukuran, dan spesifikasi lainnya\n ", 1);
-$pdf->Rect($pdf->GetX() + 7, $pdf->GetY(), 88, 20); // test-rect
+$pdf->MultiCell(85, 4, "30. Uraian barang secara lengkap meliputi jenis, jumlah, merek, tipe, ukuran, dan spesifikasi lainnya\n ", 1);
+$pdf->Rect($pdf->GetX() + 7, $pdf->GetY(), 85, 20); // test-rect
 
-$pdf->SetXY($row_x + 95, $row_y);
+$pdf->SetXY($row_x + 92, $row_y);
 $pdf->MultiCell(30, 4, "31. Nilai Pabean\n\n ", 1, 'L');
-$pdf->Rect($pdf->GetX() + 95, $pdf->GetY(), 30, 20); // test-rect
+$pdf->Rect($pdf->GetX() + 92, $pdf->GetY(), 30, 20); // test-rect
 
-$pdf->SetXY($row_x + 125, $row_y);
+$pdf->SetXY($row_x + 122, $row_y);
 $pdf->MultiCell(35, 4, "32. - Pos Tarif / HS\n      - Tarif BM, Cukai, PPN, PPh, PPnBM", 1, 'L');
-$pdf->Rect($pdf->GetX() + 125, $pdf->GetY(), 35, 20); // test-rect
+$pdf->Rect($pdf->GetX() + 122, $pdf->GetY(), 35, 20); // test-rect
 
-$pdf->SetXY($row_x + 160, $row_y);
-$pdf->MultiCell(30, 4, "Dalam Rupiah (Rp)\n\n ", 1, 'L');
-$pdf->Rect($pdf->GetX() + 160, $pdf->GetY(), 30, 20); // test-rect
+$pdf->SetXY($row_x + 157, $row_y);
+$pdf->MultiCell(33, 4, "Dalam Rupiah (Rp)\n\n ", 1, 'L');
+$pdf->Rect($pdf->GetX() + 157, $pdf->GetY(), 33, 20); // test-rect
 
 
 // DATA PENETAPAN
-
+    
+    //-----------------------------------------------------------
+    // DATA TOTAL PUNGUTAN DI SINI
     // test the details?
-    $pdf->SetX($row_x + 160);
-    $pdf->Cell(10, 4, "BM :", 0);
+    $pdf->SetX($row_x + 157);
+    $pdf->Cell(10, 4, "33.BM :", 0);
     $pdf->Cell(0, 4, "239,000.00", 0, 1, 'R');
 
-    $pdf->SetX($row_x + 160);
-    $pdf->Cell(10, 4, "PPN :", 0);
+    $pdf->SetX($row_x + 157);
+    $pdf->Cell(10, 4, "34.PPN :", 0);
     $pdf->Cell(0, 4, "1,320,000.00", 0, 1, 'R');
 
-    $pdf->SetX($row_x + 160);
-    $pdf->Cell(10, 4, "PPnBM :", 0);
+    $pdf->SetX($row_x + 157);
+    $pdf->Cell(10, 4, "35.PPnBM :", 0);
     $pdf->Cell(0, 4, "0.00", 0, 1, 'R');
 
-    $pdf->SetX($row_x + 160);
-    $pdf->Cell(10, 4, "PPh :", 0);
+    $pdf->SetX($row_x + 157);
+    $pdf->Cell(10, 4, "36.PPh :", 0);
     $pdf->Cell(0, 4, "2,640,000.00", 0, 1, 'R');
 
-    $pdf->SetX($row_x + 160);
-    $pdf->Cell(10, 4, "Total :", 0);
-    $pdf->Cell(0, 4, "7,650,000.00", 0, 1, 'R');
+    $pdf->SetX($row_x + 157);
+    $pdf->Cell(10, 4, "37.Total :", 0);
+    $pdf->Cell(0, 4, "17,650,000.00", 0, 1, 'R');
 
 //-------------------------------------------------------------------------------------
 // 1 data barang aja yang muat
 //-------------------------------------------------------------------------------------
+
+$pdf->AddPage();
+$pdf->Cell(0, 4, "Page {$pdf->PageNo()} of {nb}");
 
 
 // PRINT!!
