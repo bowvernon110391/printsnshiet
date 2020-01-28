@@ -376,6 +376,9 @@ $max_row_y = max($max_row_y, $pdf->GetY());
 $pdf->Rect($row_x, $row_y, 95, $max_row_y - $row_y);
 $pdf->Rect($row_x + 95, $row_y, 95, $max_row_y - $row_y);
 
+//=====================================================================================================
+// 5th ROW
+//=====================================================================================================
 // E. DATA BARANG
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(0, 4, "E. DATA BARANG", 1, 1);
@@ -406,6 +409,10 @@ $pdf->SetXY($row_x + 160, $row_y);
 $pdf->MultiCell(30, 4, "21. Perkiraan Nilai Barang (CIF)", 1, 'L');
 $pdf->Rect($pdf->GetX() + 160, $pdf->GetY(), 30, 20); // test-rect
 // $pdf->Ln();
+
+//=====================================================================================================
+// 6th ROW
+//=====================================================================================================
 // F. Tanda Tangan
 $pdf->SetXY($row_x, $pdf->GetY() + 20);
 $row_x = $pdf->GetX();
@@ -493,26 +500,61 @@ $pdf->Cell(0, 7, "12453859.23", 0, 0, 'R');
     // $pdf->Rect($row_x + 47.5, $row_y, 47.5, 7);
 $pdf->Ln();
 
+//=====================================================================================================
+// 7th ROW
+//=====================================================================================================
+// H. HASIL PEMERIKSAAN/PENETAPAN PEJABAT BEA DAN CUKAI PELABUHAN PEMASUKAN
+$pdf->SetFont('Arial', 'B', 8);
+
+$pdf->Cell(0, 4, 'H. HASIL PEMERIKSAAN/PENETAPAN PEJABAT BEA DAN CUKAI PELABUHAN PEMASUKAN', 1, 1);
+
+$row_x = $pdf->GetX();
+$row_y = $pdf->GetY();
+
+$pdf->SetFont('Arial', '', 8);
+
+$pdf->MultiCell(7, 4, "29. No\n ", 1);
+$pdf->Rect($pdf->GetX(), $pdf->GetY(), 7, 20);      // test-rect
+
+$pdf->SetXY($row_x + 7, $row_y);
+$pdf->MultiCell(88, 4, "30. Uraian barang secara lengkap meliputi jenis, jumlah, merek, tipe, ukuran, dan spesifikasi lainnya\n ", 1);
+$pdf->Rect($pdf->GetX() + 7, $pdf->GetY(), 88, 20); // test-rect
+
+$pdf->SetXY($row_x + 95, $row_y);
+$pdf->MultiCell(30, 4, "31. Nilai Pabean\n\n ", 1, 'L');
+$pdf->Rect($pdf->GetX() + 95, $pdf->GetY(), 30, 20); // test-rect
+
+$pdf->SetXY($row_x + 125, $row_y);
+$pdf->MultiCell(35, 4, "32. - Pos Tarif / HS\n      - Tarif BM, Cukai, PPN, PPh, PPnBM", 1, 'L');
+$pdf->Rect($pdf->GetX() + 125, $pdf->GetY(), 35, 20); // test-rect
+
+$pdf->SetXY($row_x + 160, $row_y);
+$pdf->MultiCell(30, 4, "Dalam Rupiah (Rp)\n\n ", 1, 'L');
+$pdf->Rect($pdf->GetX() + 160, $pdf->GetY(), 30, 20); // test-rect
+
+
+// DATA PENETAPAN
+
     // test the details?
-    /* $pdf->SetX($row_x + 160);
+    $pdf->SetX($row_x + 160);
     $pdf->Cell(10, 4, "BM :", 0);
-    $pdf->Cell(0, 4, "239000", 0, 1, 'R');
+    $pdf->Cell(0, 4, "239,000.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 160);
     $pdf->Cell(10, 4, "PPN :", 0);
-    $pdf->Cell(0, 4, "1320000", 0, 1, 'R');
+    $pdf->Cell(0, 4, "1,320,000.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 160);
     $pdf->Cell(10, 4, "PPnBM :", 0);
-    $pdf->Cell(0, 4, "0", 0, 1, 'R');
+    $pdf->Cell(0, 4, "0.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 160);
     $pdf->Cell(10, 4, "PPh :", 0);
-    $pdf->Cell(0, 4, "2640000", 0, 1, 'R');
+    $pdf->Cell(0, 4, "2,640,000.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 160);
     $pdf->Cell(10, 4, "Total :", 0);
-    $pdf->Cell(0, 4, "7650000", 0, 1, 'R'); */
+    $pdf->Cell(0, 4, "7,650,000.00", 0, 1, 'R');
 
 //-------------------------------------------------------------------------------------
 // 1 data barang aja yang muat
