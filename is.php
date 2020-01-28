@@ -544,18 +544,22 @@ $pdf->Rect($pdf->GetX() + 157, $pdf->GetY(), 33, 20); // test-rect
     $pdf->Cell(0, 4, "239,000.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 157);
+    $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->GetX() + 33, $pdf->GetY());
     $pdf->Cell(10, 4, "34.PPN :", 0);
     $pdf->Cell(0, 4, "1,320,000.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 157);
+    $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->GetX() + 33, $pdf->GetY());
     $pdf->Cell(10, 4, "35.PPnBM :", 0);
     $pdf->Cell(0, 4, "0.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 157);
+    $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->GetX() + 33, $pdf->GetY());
     $pdf->Cell(10, 4, "36.PPh :", 0);
     $pdf->Cell(0, 4, "2,640,000.00", 0, 1, 'R');
 
     $pdf->SetX($row_x + 157);
+    $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->GetX() + 33, $pdf->GetY());
     $pdf->Cell(10, 4, "37.Total :", 0);
     $pdf->Cell(0, 4, "17,650,000.00", 0, 1, 'R');
 
@@ -563,8 +567,8 @@ $pdf->Rect($pdf->GetX() + 157, $pdf->GetY(), 33, 20); // test-rect
 // 1 data barang aja yang muat
 //-------------------------------------------------------------------------------------
 
-$pdf->AddPage();
-$pdf->Cell(0, 4, "Page {$pdf->PageNo()} of {nb}");
+// $pdf->AddPage();
+// $pdf->Cell(0, 4, "Page {$pdf->PageNo()} of {nb}");
 
 
 // PRINT!!
