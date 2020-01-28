@@ -1,0 +1,15 @@
+{
+    "name": "bowie/print",
+    "require": {
+        "fpdf/fpdf": "^1.81"
+    },
+    "require-dev": {
+        "fpdf/fpdf": "^1.81"
+    },
+    "authors": [
+        {
+            "name": "Bow Vernon",
+            "email": "bowvernon110391@gmail.com"
+        }
+    ]
+}
