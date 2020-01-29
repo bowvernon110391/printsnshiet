@@ -104,7 +104,8 @@ class PDFImporSementara extends Fpdf {
 
     protected $catatan_pejabat    = 'Barang ini sejatinya digunakan untuk keperluan event olahraga se-asia tenggara, ASEAN GAMES 2024. Namun tetap berlaku kewajiban pabean atas barang ini, sehingga apabila hingga waktu jatuh tempo pemilik barang belum melakukan ekspor atas barang ini, maka jaminan yang sudah diterima akan dicairkan.';
 
-    protected $kantor_pengeluaran = 'KPU BC TIPE C SOEKARNO HATTA';
+    protected $kantor_pemasukan     = 'KPU BC TIPE C SOEKARNO HATTA';
+    protected $kantor_pengeluaran   = 'KPU BC TIPE C SOEKARNO HATTA';
     protected $nomor_bukti_realisasi_ekspor   = 'RE-00021/T3/SH/2020';
     protected $tgl_bukti_realisasi_ekspor     = '2020-02-24';
 
@@ -114,6 +115,11 @@ class PDFImporSementara extends Fpdf {
         $this->SetFont('Arial', 'I', 8);
         $this->SetY(-15);
         $this->Write(4, 'Dokumen ini dicetak secara otomatis menggunakan sistem terkomputerisasi');
+
+        $time = "Dicetak pada tanggal " . date('d-m-Y H:i:s') . " WIB";
+
+        $this->SetX(-150);
+        $this->Cell(0, 4, $time, 0, 0, 'R');
     }
 
     // constructor
@@ -744,6 +750,148 @@ class PDFImporSementara extends Fpdf {
     public function generatePDF() {
         $this->generateFirstPage();
         // check data barang, if there's more than 1, spawn additional page
+        $this->generateNextPage([]);
+    }
+
+    // generate 2nd page and so on. Requires Data Barang, max 5.
+    // you have to chunk manually so this function only gets like 5 items
+    public function generateNextPage(array $dataBarang, $startno = 1) {
+        // add page
+        $this->AddPage();
+
+        // add title
+        $this->SetFont('Arial', 'B', 8);
+
+        $this->Cell(0, 4, 'LEMBAR LANJUTAN', 0, 1, 'C');
+        $this->Cell(0, 4, 'FORMULIR IMPOR SEMENTARA', 0, 1, 'C');
+        $this->Cell(0, 4, 'BARANG PRIBADI PENUMPANG DAN BARANG PRIBADI AWAK SARANA PENGANGKUT', 0, 1, 'C');
+
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
+        // reset font
+        $this->SetFont('Arial', '', 8);
+
+        // Halaman x dari y
+        $this->Cell(0, 4, "Halaman {$this->PageNo()} dari {nb}", 0, 1, 'R');
+
+        // Kantor Pabean Pemasukkan dan Nomor
+        $this->Cell(50, 4, 'Kantor Pabean Pemasukan :');
+        $this->Cell(0, 4, $this->kantor_pemasukan, 0, 1);
+
+        $this->Cell(50, 4, "Nomor                                  :");
+        $this->Cell(0, 4, $this->G_no_dok, 0, 1);
+
+        // draw rectangle
+        $this->Rect($row_x, $row_y, 190, $this->GetY()-$row_y);
+
+        // E. DATA BARANG
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(0, 4, 'E. DATA BARANG', 1, 1);
+
+        // Header table for data barang
+        $this->SetFont('Arial', '', 8);
+
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
+        // 17. no
+        $this->MultiCell(7, 4, '17. No', 1, 'L');
+
+        // 18. Uraian Barang
+        $this->SetXY($row_x + 7, $row_y);
+        $this->MultiCell(63, 4, "18. Uraian Barang\n ", 1, 'L');
+
+        // 19. Spesifikasi/Identitas Barang
+        $this->SetXY($row_x + 70, $row_y);
+        $this->MultiCell(40, 4, "19. Spesifikasi / Identitas Barang", 1, 'L');
+        
+        // 20. Jumlah dan Jenis Satuan
+        $this->SetXY($row_x + 110, $row_y);
+        $this->MultiCell(40, 4, "20. Jumlah dan Jenis Satuan\n ", 1, 'L');
+        
+        // 21. Spesifikasi/Identitas Barang
+        $this->SetXY($row_x + 150, $row_y);
+        $this->MultiCell(40, 4, "21. Perkiraan Nilai Barang (CIF)", 1, 'L');
+
+        // 120 mm table rects
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
+        // rectangle height for data barang & data penetapan
+        $rect_height = 72;
+
+        $this->Rect($row_x, $row_y, 7, $rect_height);
+        $this->Rect($row_x + 7, $row_y, 63, $rect_height);
+        $this->Rect($row_x + 70, $row_y, 40, $rect_height);
+        $this->Rect($row_x + 110, $row_y, 40, $rect_height);
+        $this->Rect($row_x + 150, $row_y, 40, $rect_height);
+
+        // update row_y
+        $this->SetY($row_y + $rect_height);
+
+        // Kolom TTD
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
+        $this->SetX(100);
+
+        $this->Cell(4, 4, 'F.');
+        $this->MultiCell(0, 4, 'Dengan ini saya menyatakan bertanggung jawab atas kebenaran hal-hal yang diberitahukan dalam dokumen ini', 0, 'L');
+
+        // kolom kota, tanggal, pemohon, plus ttd
+        $this->SetX(100);
+        $this->MultiCell(0, 4, "{$this->ttd_kota}, Tanggal {$this->ttd_tanggal}\nPemohon\n\n\n\n( {$this->A_nama} )", 0, 'C');
+        $this->Ln(2);
+
+        // Draw Rectangle for TTD
+        $this->Rect($row_x, $row_y, 190, $this->GetY()-$row_y);
+
+        // H. Hasil Pemeriksaan
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(0, 4, 'H. HASIL PEMERIKSAAN/PENETAPAN PEJABAT BEA DAN CUKAI PELABUHAN MASUKAN', 1, 1);
+
+        $this->SetFont('Arial', '', 8);
+
+        // Tabel hasil pemeriksaan
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
+        // 29. No
+        $this->MultiCell(7, 4, '29. No', 1, 'L');
+
+        // 30. Uraian barang secara lengkap meliputi jenis, jumlah 
+        $this->SetXY($row_x + 7, $row_y);
+        $this->MultiCell(73, 4, "30. Uraian barang secara lengkap meliputi jenis, jumlah, merek, tipe, ukuran dan spesifikasi lainnya", 1, 'L');
+        
+        // 31. Nilai Pabean
+        $this->SetXY($row_x + 80, $row_y);
+        $this->MultiCell(55, 4, "31. Nilai Pabean\n ", 1, 'L');
+        
+        // 32. POS TARIF/HS, TARIF BM, CUKAI, PPN, PPh, PPnBM
+        $this->SetXY($row_x + 135, $row_y);
+        $this->MultiCell(55, 4, "32. - Pos Tarif/HS\n      - Tarif BM, Cukai, PPN, PPh, PPnBM", 1, 'L');
+
+        // draw rectangle for hasil penetapan, use similar height $rect_height above
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
+        $this->Rect($row_x, $row_y, 7, $rect_height);
+        $this->Rect($row_x + 7, $row_y, 73, $rect_height);
+        $this->Rect($row_x + 80, $row_y, 55, $rect_height);
+        $this->Rect($row_x + 135, $row_y, 55, $rect_height);
+
+        // Last cell for TTD PEJABAT
+        $this->Ln();
+
+        $this->SetX(100);
+
     }
 }
 
