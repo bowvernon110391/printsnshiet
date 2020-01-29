@@ -105,9 +105,9 @@ class PDFImporSementara extends Fpdf {
     protected $catatan_pejabat    = 'Barang ini sejatinya digunakan untuk keperluan event olahraga se-asia tenggara, ASEAN GAMES 2024. Namun tetap berlaku kewajiban pabean atas barang ini, sehingga apabila hingga waktu jatuh tempo pemilik barang belum melakukan ekspor atas barang ini, maka jaminan yang sudah diterima akan dicairkan.';
 
     protected $kantor_pemasukan     = 'KPU BC TIPE C SOEKARNO HATTA';
-    protected $kantor_pengeluaran   = 'KPU BC TIPE C SOEKARNO HATTA';
-    protected $nomor_bukti_realisasi_ekspor   = 'RE-00021/T3/SH/2020';
-    protected $tgl_bukti_realisasi_ekspor     = '2020-02-24';
+    protected $kantor_pengeluaran   = '';//'KPU BC TIPE C SOEKARNO HATTA';
+    protected $nomor_bukti_realisasi_ekspor   = ''; //'RE-00021/T3/SH/2020';
+    protected $tgl_bukti_realisasi_ekspor     = ''; //'2020-02-24';
 
     // Footer is printed everywhere
     public function Footer()
