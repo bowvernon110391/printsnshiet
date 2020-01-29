@@ -846,7 +846,7 @@ class PDFImporSementara extends Fpdf {
         // kolom kota, tanggal, pemohon, plus ttd
         $this->SetX(100);
         $this->MultiCell(0, 4, "{$this->ttd_kota}, Tanggal {$this->ttd_tanggal}\nPemohon\n\n\n\n( {$this->A_nama} )", 0, 'C');
-        $this->Ln(2);
+        $this->Ln(1);
 
         // Draw Rectangle for TTD
         $this->Rect($row_x, $row_y, 190, $this->GetY()-$row_y);
@@ -887,11 +887,36 @@ class PDFImporSementara extends Fpdf {
         $this->Rect($row_x + 80, $row_y, 55, $rect_height);
         $this->Rect($row_x + 135, $row_y, 55, $rect_height);
 
+        // set new Y
+        $this->SetY($row_y + $rect_height);
+
+        // record rowx and rowy
+        $row_x  = $this->GetX();
+        $row_y  = $this->GetY();
+
         // Last cell for TTD PEJABAT
         $this->Ln();
 
         $this->SetX(100);
+        $this->MultiCell(0, 4, "{$this->ttd_kota} , Tanggal {$this->ttd_tanggal}\nPejabat Bea dan Cukai", 0, 'C');
 
+        // space utk ttd
+        $this->Ln(16);
+
+        // nama 
+        $this->SetX(125);
+        $this->Cell(15, 4, 'Nama  :');
+        $this->Cell(0, 4, $this->nama_pejabat, 0, 1);
+
+        // nip
+        $this->SetX(125);
+        $this->Cell(15, 4, 'NIP     :');
+        $this->Cell(0, 4, $this->nip_pejabat, 0, 1);
+
+        $this->Ln(1);
+
+        // Draw rectangle nao
+        $this->Rect($row_x, $row_y, 190, $this->GetY()-$row_y);
     }
 }
 
