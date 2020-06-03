@@ -3,12 +3,20 @@ include 'vendor/autoload.php';
 
 use Fpdf\Fpdf;
 
-$data = unserialize(base64_decode('YToxMTp7czo4OiJrb21lcnNpbCI7YjowO3M6OToicHBoX3RhcmlmIjtzOjY6IjcuNTAwMCI7czoxMToicHBuYm1fdGFyaWYiO2Q6MDtzOjg6InRvdGFsX2JtIjtkOjY2NzAwMDtzOjExOiJ0b3RhbF9jdWthaSI7aTowO3M6OToidG90YWxfcHBuIjtkOjczNDAwMDtzOjk6InRvdGFsX3BwaCI7ZDo1NTAwMDA7czoxMToidG90YWxfcHBuYm0iO2Q6MDtzOjE0OiJ0b3RhbF9ibV9wYWphayI7ZDoxOTUxMDAwO3M6MTY6ImRhdGFfcGVyaGl0dW5nYW4iO2E6Mjp7aTowO2E6MjI6e3M6ODoiYm1fdGFyaWYiO2Q6MTA7czoxMToiYm1fdGFyaWZfaHMiO2Q6NzkwO3M6MTQ6ImplbmlzX3RhcmlmX2JtIjtzOjg6IlNQRVNJRklLIjtzOjE1OiJzYXR1YW5fc3Blc2lmaWsiO3M6MzoiL2tnIjtzOjEzOiJqdW1sYWhfc2F0dWFuIjtpOjkwO3M6MTI6ImplbmlzX3NhdHVhbiI7czozOiJLR00iO3M6OToicHBuX3RhcmlmIjtkOjEwO3M6OToicHBoX3RhcmlmIjtkOjcuNTtzOjExOiJwcG5ibV90YXJpZiI7ZDowO3M6MTI6Im5pbGFpX3BhYmVhbiI7ZDo3MTA4MDQ4LjY0O3M6MzoiZm9iIjtzOjg6IjcwNC4wMDAwIjtzOjk6Imluc3VyYW5jZSI7czo2OiIwLjAwMDAiO3M6NzoiZnJlaWdodCI7czo2OiIwLjAwMDAiO3M6MzoiY2lmIjtkOjcwNDtzOjI6ImJtIjtkOjcxMTAwMDtzOjU6ImN1a2FpIjtpOjA7czozOiJwcG4iO2Q6NzgyMDAwO3M6MzoicHBoIjtkOjU4NzAwMDtzOjU6InBwbmJtIjtkOjA7czo2OiJ2YWx1dGEiO3M6MzoiU0dEIjtzOjU6Im5kcGJtIjtzOjEwOiIxMDA5Ni42NjAwIjtzOjE2OiJsb25nX2Rlc2NyaXB0aW9uIjtzOjk1OiJRdW9kIGxhdWRhbnRpdW0gaXBzYW0gZXQgbmloaWwgdGVuZXR1ci4gLS0gOTAgUk8sIDkwIEtHTSAtLSBicnV0dG8gOTAuMDAwMCBLRywgbmV0dG8gOTAuMDAwMCBLRyI7fWk6MTthOjIyOntzOjg6ImJtX3RhcmlmIjtkOjEwO3M6MTE6ImJtX3RhcmlmX2hzIjtkOjE1O3M6MTQ6ImplbmlzX3RhcmlmX2JtIjtzOjk6IkFEVkFMT1JVTSI7czoxNToic2F0dWFuX3NwZXNpZmlrIjtOO3M6MTM6Imp1bWxhaF9zYXR1YW4iO2k6MzM7czoxMjoiamVuaXNfc2F0dWFuIjtzOjM6IktHTSI7czo5OiJwcG5fdGFyaWYiO2Q6MTA7czo5OiJwcGhfdGFyaWYiO2Q6Ny41O3M6MTE6InBwbmJtX3RhcmlmIjtkOjA7czoxMjoibmlsYWlfcGFiZWFuIjtkOjYzNzYwNDAuNzk7czozOiJmb2IiO3M6ODoiNjMxLjUwMDAiO3M6OToiaW5zdXJhbmNlIjtzOjY6IjAuMDAwMCI7czo3OiJmcmVpZ2h0IjtzOjY6IjAuMDAwMCI7czozOiJjaWYiO2Q6NjMxLjU7czoyOiJibSI7ZDo2MzgwMDA7czo1OiJjdWthaSI7aTowO3M6MzoicHBuIjtkOjcwMjAwMDtzOjM6InBwaCI7ZDo1MjcwMDA7czo1OiJwcG5ibSI7ZDowO3M6NjoidmFsdXRhIjtzOjM6IlNHRCI7czo1OiJuZHBibSI7czoxMDoiMTAwOTYuNjYwMCI7czoxNjoibG9uZ19kZXNjcmlwdGlvbiI7czoxMDc6Ik5pc2kgcXVhZXJhdC4gLS0gMzMgUk8sIDMzIEtHTSAtLSBicnV0dG8gMzg3ODYuOTk4OCBLRywgbmV0dG8gMjEyOTAuOTUzMSBLRwotIFNFUklBTCBOVU1CRVIgOiBRdW9zIHF1aSBlc3QuIjt9fXM6MTU6ImRhdGFfcGVtYmViYXNhbiI7YTo2OntzOjE2OiJuaWxhaV9wZW1iZWJhc2FuIjtzOjg6IjUwMC4wMDAwIjtzOjY6InZhbHV0YSI7czozOiJVU0QiO3M6NToibmRwYm0iO3M6MTA6IjEzNjQyLjAwMDAiO3M6MTk6Im5pbGFpX3BlbWJlYmFzYW5fcnAiO2Q6NjgyMTAwMDtzOjIzOiJuaWxhaV9kYXNhcl9wZXJoaXR1bmdhbiI7ZDo2NjYzMDg5LjQzO3M6MTg6InRhcmlmX2JtX3VuaXZlcnNhbCI7ZDoxMDt9fQ=='));
+$json = '{"komersil":false,"pph_tarif":"7.5000","ppnbm_tarif":0,"total_bm":1787000,"total_cukai":0,"total_ppn":1966000,"total_pph":1474000,"total_ppnbm":0,"total_bm_pajak":5227000,"data_perhitungan":[{"hs_code":"04021041","bm_tarif":10,"bm_tarif_hs":5,"jenis_tarif_bm":"ADVALORUM","satuan_spesifik":null,"jumlah_satuan":97,"jenis_satuan":"PCE","jumlah_kemasan":12,"jenis_kemasan":"PK","ppn_tarif":10,"pph_tarif":7.5,"ppnbm_tarif":0,"nilai_pabean":8584477.437601177,"fob":805.435,"insurance":42.5346,"freight":168.5881,"cif":1016.5576999999998,"bm":859000,"cukai":0,"ppn":945000,"pph":709000,"ppnbm":0,"valuta":"USD","ndpbm":8444.6534,"long_description":"Ab possimus sit sapiente eveniet non minus.\n-- brutto 21.5540 KG\n\n--> IMEI : Minus aut nostrum qui nulla.; \n--> IMSI : Culpa doloribus ut architecto.","short_description":"Ab possimus sit sapiente eveniet non minus.","brutto":21.554},{"hs_code":"94015300","bm_tarif":10,"bm_tarif_hs":20,"jenis_tarif_bm":"ADVALORUM","satuan_spesifik":null,"jumlah_satuan":65,"jenis_satuan":"PCE","jumlah_kemasan":8,"jenis_kemasan":"PK","ppn_tarif":10,"pph_tarif":7.5,"ppnbm_tarif":0,"nilai_pabean":8674746.56012048,"fob":895.8074,"insurance":22.4141,"freight":109.0257,"cif":1027.2472,"bm":868000,"cukai":0,"ppn":955000,"pph":716000,"ppnbm":0,"valuta":"USD","ndpbm":8444.6534,"long_description":"Cupiditate enim.\n-- brutto 18.7551 KG\n\n--> IMEI : Voluptas natus necessitatibus molestiae laudantium molestiae sit ad.","short_description":"Cupiditate enim.","brutto":18.7551},{"hs_code":"84518000","bm_tarif":10,"bm_tarif_hs":0,"jenis_tarif_bm":"ADVALORUM","satuan_spesifik":null,"jumlah_satuan":56,"jenis_satuan":"PCE","jumlah_kemasan":4,"jenis_kemasan":"PX","ppn_tarif":10,"pph_tarif":7.5,"ppnbm_tarif":0,"nilai_pabean":5481706.57336356,"fob":539.767,"insurance":58.803,"freight":50.5634,"cif":649.1334,"bm":549000,"cukai":0,"ppn":604000,"pph":453000,"ppnbm":0,"valuta":"USD","ndpbm":8444.6534,"long_description":"Sunt labore.\n-- brutto 15.8748 KG\n\n--> MAC ADDRESS : Eveniet odio voluptatum qui nostrum earum recusandae doloribus quidem rem praesentium dicta.","short_description":"Sunt labore.","brutto":15.8748},{"hs_code":"85013222","bm_tarif":10,"bm_tarif_hs":10,"jenis_tarif_bm":"ADVALORUM","satuan_spesifik":null,"jumlah_satuan":16,"jenis_satuan":"PCE","jumlah_kemasan":20,"jenis_kemasan":"RO","ppn_tarif":10,"pph_tarif":7.5,"ppnbm_tarif":0,"nilai_pabean":9885138.154645298,"fob":968.4549,"insurance":98.2946,"freight":103.83,"cif":1170.5794999999998,"bm":989000,"cukai":0,"ppn":1088000,"pph":816000,"ppnbm":0,"valuta":"USD","ndpbm":8444.6534,"long_description":"Rerum aut minima ipsa natus eaque.\n-- brutto 2.6696 KG","short_description":"Rerum aut minima ipsa natus eaque.","brutto":2.6696}],"data_pembebasan":{"nilai_pembebasan":"1000.0000","valuta":"USD","ndpbm":"14760.0000","nilai_pembebasan_rp":14760000,"nilai_dasar_perhitungan":17866068.725730516,"tarif_bm_universal":10},"catatan":null,"jenis_pembayaran":"TUNAI"}';
+$b64 = "YToxMTp7czo4OiJrb21lcnNpbCI7YjowO3M6OToicHBoX3RhcmlmIjtzOjY6IjcuNTAwMCI7czoxMToicHBuYm1fdGFyaWYiO2Q6MDtzOjg6InRvdGFsX2JtIjtkOjI0OTAwMDtzOjExOiJ0b3RhbF9jdWthaSI7aTowO3M6OToidG90YWxfcHBuIjtkOjI3NDAwMDtzOjk6InRvdGFsX3BwaCI7ZDoyMDUwMDA7czoxMToidG90YWxfcHBuYm0iO2Q6MDtzOjE0OiJ0b3RhbF9ibV9wYWphayI7ZDo3MjgwMDA7czoxNjoiZGF0YV9wZXJoaXR1bmdhbiI7YToyOntpOjA7YToyNzp7czo3OiJoc19jb2RlIjtzOjg6Ijg0MTM1MDMyIjtzOjg6ImJtX3RhcmlmIjtkOjEwO3M6MTE6ImJtX3RhcmlmX2hzIjtkOjU7czoxNDoiamVuaXNfdGFyaWZfYm0iO3M6OToiQURWQUxPUlVNIjtzOjE1OiJzYXR1YW5fc3Blc2lmaWsiO047czoxMzoianVtbGFoX3NhdHVhbiI7aTo1ODtzOjEyOiJqZW5pc19zYXR1YW4iO3M6MjoiRUEiO3M6MTQ6Imp1bWxhaF9rZW1hc2FuIjtpOjc7czoxMzoiamVuaXNfa2VtYXNhbiI7czoyOiJSTyI7czo5OiJwcG5fdGFyaWYiO2Q6MTA7czo5OiJwcGhfdGFyaWYiO2Q6Ny41O3M6MTE6InBwbmJtX3RhcmlmIjtkOjA7czoxMjoibmlsYWlfcGFiZWFuIjtkOjUxNjkwNzIuMTYwNTA1NTI7czozOiJmb2IiO2Q6ODQzLjMzNTE7czo5OiJpbnN1cmFuY2UiO2Q6MTEuOTk3MjtzOjc6ImZyZWlnaHQiO2Q6NDAuOTkyMTtzOjM6ImNpZiI7ZDo4OTYuMzI0NDAwMDAwMDAwMTtzOjI6ImJtIjtkOjUxNzAwMDtzOjU6ImN1a2FpIjtpOjA7czozOiJwcG4iO2Q6NTY5MDAwO3M6MzoicHBoIjtkOjQyNzAwMDtzOjU6InBwbmJtIjtkOjA7czo2OiJ2YWx1dGEiO3M6MzoiSU5SIjtzOjU6Im5kcGJtIjtkOjU3NjYuOTY1ODtzOjE2OiJsb25nX2Rlc2NyaXB0aW9uIjtzOjIwODoiRG9sb3JpYnVzIG5paGlsIG1vbGVzdGlhZSBxdWlhIHZvbHVwdGFzIGF1dCBtaW5pbWEuCi0tIGJydXR0byAyNC44MDQ3IEtHCgotLT4gU0VSSUFMIE5VTUJFUiA6IFBlcmZlcmVuZGlzIGl0YXF1ZSBwZXJzcGljaWF0aXMgZXQgbmF0dXMgYXNwZXJuYXR1ciBjb21tb2RpLjsgCi0tPiBJTVNJIDogQ29ycG9yaXMgbWFpb3JlcyBpc3RlIGV0IG5lY2Vzc2l0YXRpYnVzLiI7czoxNzoic2hvcnRfZGVzY3JpcHRpb24iO3M6NTE6IkRvbG9yaWJ1cyBuaWhpbCBtb2xlc3RpYWUgcXVpYSB2b2x1cHRhcyBhdXQgbWluaW1hLiI7czo2OiJicnV0dG8iO2Q6MjQuODA0Nzt9aToxO2E6Mjc6e3M6NzoiaHNfY29kZSI7czo4OiI4NDgzMTAzOSI7czo4OiJibV90YXJpZiI7ZDoxMDtzOjExOiJibV90YXJpZl9ocyI7ZDo1O3M6MTQ6ImplbmlzX3RhcmlmX2JtIjtzOjk6IkFEVkFMT1JVTSI7czoxNToic2F0dWFuX3NwZXNpZmlrIjtOO3M6MTM6Imp1bWxhaF9zYXR1YW4iO2k6OTA7czoxMjoiamVuaXNfc2F0dWFuIjtzOjI6IkVBIjtzOjE0OiJqdW1sYWhfa2VtYXNhbiI7aToyMDtzOjEzOiJqZW5pc19rZW1hc2FuIjtzOjI6IlBYIjtzOjk6InBwbl90YXJpZiI7ZDoxMDtzOjk6InBwaF90YXJpZiI7ZDo3LjU7czoxMToicHBuYm1fdGFyaWYiO2Q6MDtzOjEyOiJuaWxhaV9wYWJlYW4iO2Q6NDY5NDU5Mi4xNjU4Mjc2MjtzOjM6ImZvYiI7ZDo2MTMuNTI3NztzOjk6Imluc3VyYW5jZSI7ZDo1Ny43Njk5O3M6NzoiZnJlaWdodCI7ZDoxNDIuNzUxMztzOjM6ImNpZiI7ZDo4MTQuMDQ4OTtzOjI6ImJtIjtkOjQ3MDAwMDtzOjU6ImN1a2FpIjtpOjA7czozOiJwcG4iO2Q6NTE3MDAwO3M6MzoicHBoIjtkOjM4ODAwMDtzOjU6InBwbmJtIjtkOjA7czo2OiJ2YWx1dGEiO3M6MzoiSU5SIjtzOjU6Im5kcGJtIjtkOjU3NjYuOTY1ODtzOjE2OiJsb25nX2Rlc2NyaXB0aW9uIjtzOjE0MToiQWxpYXMgaGFydW0uCi0tIGJydXR0byAxOC40OTk4IEtHCgotLT4gSU1TSSA6IE5lbW8gaGFydW0gZXQgcXVpIGRvbG9yZW0gZGlzdGluY3RpbyBkZWxlY3R1cyBpcHN1bSBhdXQgZXN0IHBlcmZlcmVuZGlzIHZvbHVwdGF0ZSBzaXQgaW5jaWR1bnQuIjtzOjE3OiJzaG9ydF9kZXNjcmlwdGlvbiI7czoxMjoiQWxpYXMgaGFydW0uIjtzOjY6ImJydXR0byI7ZDoxOC40OTk4O319czoxNToiZGF0YV9wZW1iZWJhc2FuIjthOjY6e3M6MTY6Im5pbGFpX3BlbWJlYmFzYW4iO3M6ODoiNTAwLjAwMDAiO3M6NjoidmFsdXRhIjtzOjM6IlVTRCI7czo1OiJuZHBibSI7czoxMDoiMTQ3NjAuMDAwMCI7czoxOToibmlsYWlfcGVtYmViYXNhbl9ycCI7ZDo3MzgwMDAwO3M6MjM6Im5pbGFpX2Rhc2FyX3BlcmhpdHVuZ2FuIjtkOjI0ODM2NjQuMzI2MzMzMTM5O3M6MTg6InRhcmlmX2JtX3VuaXZlcnNhbCI7ZDoxMDt9fQ==";
+
+$data = unserialize(base64_decode($b64));
+
+// var_dump($data);
+// print_r($data);
+$nilai_impor = $data['total_bm'] + $data['data_pembebasan']['nilai_dasar_perhitungan'];
 
 
-function font($style = '') {
+function font($style = '', $color=[0,0,0]) {
     global $pdf;
     $pdf->SetFont('Arial', $style, 8);
+    $pdf->SetTextColor($color[0], $color[1], $color[2]);
 }
 
 $pdf = new Fpdf('L', 'mm', 'A4');
@@ -284,6 +292,10 @@ $pdf->Cell(0, 4, number_format($data['data_pembebasan']['nilai_dasar_perhitungan
 
 $pdf->Line($pdf->GetX(), $pdf->GetY(), 287, $pdf->GetY());
 
+// record row_x row_y
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
 // Title
 $pdf->Ln();
 $pdf->SetX($row_x + 7);
@@ -291,15 +303,87 @@ $pdf->Cell(63, 4, 'BEA MASUK DAN PAJAK', 0, 2);
 font('BI');
 $pdf->Cell(63, 4, 'TAX AND DUTY', 0, 1);
 
+// record row_x row_y
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
 // 10. Bea Masuk
 font();
 $pdf->SetX($row_x + 7);
 $pdf->Cell(63, 4, "(10) Bea Masuk: [(9) x 10%]", 0, 2);
 font('I');
-$pdf->Cell(63, 4, 'Customs Duty', 0, 2);
+$pdf->Cell(63, 4, 'Customs Duty', 0, 0);
+
+font('B');
+$pdf->Cell(0, 4, number_format($data['total_bm'], 2), 0, 1, 'R');
 
 $pdf->Line($row_x, $pdf->GetY(), 287, $pdf->GetY());
 
+// record row_x row_y
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+// 11. Nilai Impor
+font('',[255, 0, 0]);
+$pdf->SetX($row_x + 7);
+$pdf->Cell(63, 4, "(11) Nilai Impor: [(9)+(10)]", 0, 2);
+font('I',[255, 0, 0]);
+$pdf->Cell(63, 4, 'Import Value', 0, 0);
+
+font('B',[255, 0, 0]);
+
+$pdf->SetX($row_x + 7 + 63 + 22.5 + 22.5 + 22.5 + 25 + 14.5 );
+$pdf->Cell(30, 4, number_format($nilai_impor, 2), 0, 1, 'R');
+
+$pdf->Line($row_x, $pdf->GetY(), 287, $pdf->GetY());
+
+// record row_x row_y
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+// 12. PPN
+font();
+$pdf->SetX($row_x + 7);
+$pdf->Cell(63, 4, "(12) PPN: [(11) x 10%]", 0, 2);
+font('I');
+$pdf->Cell(63, 4, 'Value Added Tax', 0, 0);
+
+font('B');
+$pdf->Cell(0, 4, number_format($data['total_ppn'], 2), 0, 1, 'R');
+
+$pdf->Line($row_x, $pdf->GetY(), 287, $pdf->GetY());
+
+// record row_x row_y
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+// 13. PPh
+font();
+$pdf->SetX($row_x + 7);
+$pdf->Cell(63, 4, "(13) PPh: [(11) x ". number_format($data['pph_tarif'], 2) ."%]", 0, 2);
+font('I');
+$pdf->Cell(63, 4, 'Value Added Tax', 0, 0);
+
+font('B');
+$pdf->Cell(0, 4, number_format($data['total_pph'], 2), 0, 1, 'R');
+
+$pdf->Line($row_x, $pdf->GetY(), 287, $pdf->GetY());
+
+// record row_x row_y
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+// 14. Total
+font('B');
+$pdf->SetX($row_x + 7);
+$pdf->Cell(63, 4, "Total Bea Masuk dan Pajak", 0, 2);
+font('BI');
+$pdf->Cell(63, 4, 'Total Duty and Tax', 0, 0);
+
+font('B');
+$pdf->Cell(0, 4, number_format($data['total_bm_pajak'], 2), 0, 1, 'R');
+$pdf->Line($row_x, $pdf->GetY(), 287, $pdf->GetY());
+$pdf->Line($row_x, $pdf->GetY() + 1, 287, $pdf->GetY() + 1);
 
 
 $pdf->Output('I', 'perhitungan.pdf');
