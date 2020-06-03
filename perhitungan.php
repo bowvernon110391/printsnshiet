@@ -11,10 +11,11 @@ $data = unserialize(base64_decode($b64));
 // var_dump($data);
 // print_r($data);
 $nilai_impor = $data['total_bm'] + $data['data_pembebasan']['nilai_dasar_perhitungan'];
-
 $nama_pejabat   = 'Tri Mulyadi Wibowo';
-
 $nama_penumpang = 'Max Weber';
+
+$nomor_lengkap_dok  = '9392/CD/T3/SH/2020';
+$tgl_dok        = '2020-05-28';
 
 function font($style = '', $color=[0,0,0]) {
     global $pdf;
@@ -39,6 +40,8 @@ $pdf->Cell(0, 4, 'TAX AND DUTY CALCULATION SHEET', 0, 1, 'C');
 
 font('B');
 $pdf->Cell(0, 4, "Halaman (page) {$pdf->PageNo()} / " . '{nb}', 0, 1, 'R');
+
+$pdf->Cell(0, 4, "Customs Declaration no. : {$nomor_lengkap_dok}        Date: {$tgl_dok}", 0, 1);
 
 // draw calculation table
 font();
