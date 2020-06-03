@@ -12,6 +12,9 @@ $data = unserialize(base64_decode($b64));
 // print_r($data);
 $nilai_impor = $data['total_bm'] + $data['data_pembebasan']['nilai_dasar_perhitungan'];
 
+$nama_pejabat   = 'Tri Mulyadi Wibowo';
+
+$nama_penumpang = 'Max Weber';
 
 function font($style = '', $color=[0,0,0]) {
     global $pdf;
@@ -25,7 +28,7 @@ $pdf = new Fpdf('L', 'mm', 'A4');
 // $pdf->AddPage('L', 'A4', 0);
 $pdf->AddPage();
 $pdf->AliasNbPages();
-$pdf->SetAutoPageBreak(true, 40);
+$pdf->SetAutoPageBreak(true, 10);
 
 // Print Title
 font('B');
@@ -385,5 +388,27 @@ $pdf->Cell(0, 4, number_format($data['total_bm_pajak'], 2), 0, 1, 'R');
 $pdf->Line($row_x, $pdf->GetY(), 287, $pdf->GetY());
 $pdf->Line($row_x, $pdf->GetY() + 1, 287, $pdf->GetY() + 1);
 
+$pdf->Ln();
+
+
+// nama pejabat dan penumpang
+$row_x  = $pdf->GetX();
+$row_y  = $pdf->GetY();
+
+font();
+$pdf->Cell(287/2.0, 4, 'Pejabat Bea Cukai', 0, 0, 'C');
+$pdf->Cell(0, 4, 'Penumpang', 0, 1, 'C');
+
+font('I');
+$pdf->Cell(287/2.0, 4, 'Customs Officer', 0, 0, 'C');
+$pdf->Cell(0, 4, 'Passenger', 0, 1, 'C');
+
+// double line?
+$pdf->Ln(8);
+
+// real name n shiet
+font();
+$pdf->Cell(287/2.0, 4, "({$nama_pejabat})", 0, 0, 'C');
+$pdf->Cell(0, 4, "({$nama_penumpang})", 0, 1, 'C');
 
 $pdf->Output('I', 'perhitungan.pdf');
